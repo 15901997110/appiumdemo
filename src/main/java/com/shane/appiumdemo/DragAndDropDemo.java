@@ -36,16 +36,16 @@ public class DragAndDropDemo {
     @BeforeClass
     public void init() throws MalformedURLException {
         File userDir = new File(System.getProperty("user.dir"));
-        File appPath = new File(userDir, "apps/com.the511plus.MultiTouchTester.apk");
+        File appPath = new File(userDir, "apps/com.mobeta.android.demodslv.apk");
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
         capabilities.setCapability(MobileCapabilityType.PLATFORM, "android");//平台名称
         capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "8.0");//平台版本号
-        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "192.168.204.101:5555");//设备名称 adb devices可查看
-
+        //capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "192.168.204.101:5555");//设备名称 adb devices可查看
+        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME, "192.168.145.101:5555");
         //在adb shell中使用命令: dumpsys window windows|grep -E 'mCurrentFocus'
-        capabilities.setCapability(AndroidMobileCapabilityType.APP_PACKAGE, "com.the511plus.MultiTouchTester");//应用包名-Android独有
-        capabilities.setCapability(AndroidMobileCapabilityType.APP_ACTIVITY, "com.the511plus.MultiTouchTester.MultiTouchTester");//Activity
+        capabilities.setCapability(AndroidMobileCapabilityType.APP_PACKAGE, "com.mobeta.android.demodslv");//应用包名-Android独有
+        capabilities.setCapability(AndroidMobileCapabilityType.APP_ACTIVITY, ".Launcher");//Activity
 
         //如果Android平台中未安装此App,则将主动安装
         capabilities.setCapability(MobileCapabilityType.APP, appPath.getAbsolutePath());
@@ -104,8 +104,11 @@ public class DragAndDropDemo {
                 .perform();
     }
 
+    /**
+     * 垂直滑动
+     */
     @Test
-    public void verticalTest() {
+    public void verticalTest() throws InterruptedException {
         int fromX = dimension.getWidth() / 2;
         int fromY = (int) (dimension.getHeight() * 0.8);
         int toY = (int) (dimension.getHeight() * 0.2);
@@ -120,9 +123,9 @@ public class DragAndDropDemo {
 
         touchAction.press(PointOption.point(fromX, fromY))
                 .moveTo(PointOption.point(fromX, toY))
-                .waitAction(WaitOptions.waitOptions(Duration.ofSeconds(1)))
                 .release()
                 .perform()
         ;
+        Thread.sleep(2*1000);
     }
 }
